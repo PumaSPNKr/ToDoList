@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang='en'>
+
+<head>
+	<meta charset='utf-8'>
+	<link rel='stylesheet' type='text/css' href="index.css">
+	<script defer src="script1.js"></script>
+	<title>My todo app!</title>
+</head>
+
+<body>
+	<div id='window-container'>
+		<div id='header-container'></div>
+		<div id='outside-list-container'>
+			<div id='list-title-container'>
+				<h1 class='center'>My todo lists!</h1>
+			</div>
+			<div id='inside-list-container'>
+				<ul id='list-list'>
+					<li>List 1</li>
+					<li>List 2</li>
+					<li>List 3</li>
+				</ul>
+			</div>
+			<div id='list-form-container' class='center'>
+				<form onsubmit="return false">New list:
+					<input id='list-form'>
+					<button id='list-submit-button'>Submit</button>
+				</form>
+			</div>
+		</div>
+		<div id='outside-task-container'>
+			<div id='task-title-container'>
+				<h1 class='center'>Tasks</h1>
+			</div>
+			<div id='inside-task-container'>
+				<ul id='task-list'>
+				</ul>
+			</div>
+			<div id='task-form-container' class='center'>
+				<form onsubmit="return false">New task:
+					<input id='task-form' class='no-outline'>
+					<button id='task-submit-button'>Submit</button>
+				</form>
+			</div>
+			<div id='delete-buttons-container' class='center'>
+				<button id='delete-task-button'>Delete selected tasks</button>
+				<button id='delete-list-button'>Delete selected list</button>
+			</div>
+		</div>
+		<div id='footer-container' class='center'>Created by: Jordan Abdalla<br>LinkedIn: Here<br>Portfolio: Here</div>
+	</div>
+</body>
+
+</html>
