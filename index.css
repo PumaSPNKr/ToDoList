@@ -4,8 +4,8 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-attachment: fixed;
-	color: rgb(0, 0, 0);
 	font-style: oblique;
+	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 }
 
@@ -56,13 +56,16 @@ button:hover {
 }
 
 #header-container {
-	width: 97.2vw;
-	height: 10em;
-	background-image: url('media/TitleOriginal.jpg');
-	background-clip:padding-box;
-	background-repeat: no-repeat;
-	background-position-x: center;
-	border-radius: 1em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* width: 97.2vw; */
+	width: 99%;
+	height: 4em;
+	position: relative;
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 600;
+	font-size: 40px;
 }
 
 #outside-list-container {
@@ -71,6 +74,7 @@ button:hover {
 	position: relative;
 	width: 33vw;
 	height: 63.7vh;
+	color: white;
 }
 
 #inside-list-container {
@@ -95,6 +99,7 @@ button:hover {
 	height: 63.7vh;
 	border-radius: 1em;
 	border-style: solid;
+	border-color: white;
 	overflow: hidden;
 	/* background-color: rgb(121, 121, 255); */
 }
@@ -132,7 +137,6 @@ button:hover {
 }
 
 #footer-container {
-	display: flex;
 	width: inherit;
 	height: 10vh;
 	justify-content: center;
@@ -148,9 +152,66 @@ button:hover {
 	font-weight: 600;
 }
 
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
+
+p {
+  display: inline-block;
+  vertical-align: top;
+  margin: 0;
+}
+
+.text {
+	margin-left: -2em;
+}
+
+.word {
+  position: absolute;
+  width: 220px;
+  opacity: 0;
+}
+
+.letter {
+  display: inline-block;
+  position: relative;
+  /* float: left; */
+  transform: translateZ(25px);
+  transform-origin: 50% 50% 25px;
+}
+
+.letter.out {
+	transform: rotateX(90deg);
+	transition: transform 0.32s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+.letter.behind {
+  transform: rotateX(-90deg);
+}
+
+.letter.in {
+  transform: rotateX(0deg);
+  transition: transform 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wisteria {
+  color: #8e44ad;
+}
+
+.belize {
+  color: #2980b9;
+}
+
+.pomegranate {
+  color: #c0392b;
+}
+
+.green {
+  color: #16a085;
+}
+
 .selected-task { 
 	position: relative; 
 }
+
 .selected-task::after {
   content:' ';
   position: absolute;
@@ -189,6 +250,7 @@ button:hover {
 	}
 	
 	#inside-task-container {
+		display: flex;
 		height: 30vh;
 	}
 
@@ -198,7 +260,7 @@ button:hover {
 
 	#delete-buttons-container {
 		bottom: .5em;
-		left: 6em;
+		left: 10em;
 	}
 	
 
@@ -210,6 +272,12 @@ button:hover {
 	}
 
 	#task-form-container {
-		left: 2.5em;
+		left: 1em;
 	}
+
+	#delete-buttons-container {
+		bottom: .5em;
+		left: 2em;
+	}
+
 }

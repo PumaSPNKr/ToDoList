@@ -19,6 +19,8 @@ class UserList{
 function init(userLists: object[]){
 	updateLists(userLists);						//immediately display userLists
 	updateTasks(userLists);
+	//Rest of init is for animated header
+	runAnimatedText();
 }
 
 function createNewList(userLists: object[]){
@@ -89,7 +91,7 @@ function updateTasks(userLists: object[]){
 
 	const currentList = userLists[getSelectedList(userLists, false)];
 	if (currentList){ 											//If a list is selected
-		for (let i = 0; i < currentList[`tasks`].length; i++){	//update with current tasks in userlist
+		for (let i = 0; i < currentList[`tasks`].length; i++){	//update page with current tasks list
 			const li = document.createElement(`li`);
 			li.innerHTML = currentList[`tasks`][i];
 			currentDisplayedTasks.appendChild(li);	
@@ -112,18 +114,18 @@ function addEventHandlers(userLists: object[], htmlElements: HTMLElement, type: 
 				}
 				htmlElements.children[i].classList.add(`bold`, `selected-type`);
 				userLists[i][`selected`] = true;
-				save(userLists);											//Save list is selected for next page reload
+				save(userLists);											//Save list selected for next page reload
 				updateTasks(userLists);
 			});
 		}
 	} else if (type === `task`){
 		const currentList = userLists[getSelectedList(userLists, false)];
 		for (let i = 0; i < htmlElements.childElementCount; i++){
-			if (currentList[`doneTasks`][i]){		//mark already `done` tasks
+			if (currentList[`doneTasks`][i]){						//mark already `done` tasks on page
 				htmlElements.children[i].classList.add(`bold`, `selected-task`);
 			}
 			htmlElements.children[i].addEventListener(`click`, (event) => {	 //add selectors to task elements
-				if (currentList[`doneTasks`][i]){		 			//if selected task is already `done`
+				if (currentList[`doneTasks`][i]){		 			//if clicked task is already `done`
 					htmlElements.children[i].classList.remove(`bold`, `selected-task`);
 					currentList[`doneTasks`].splice(i, 1, false);	//remove selectors
 				} else {											//else add selectors
@@ -149,8 +151,6 @@ function getSelectedList(userLists: object[], provideError: boolean){
 	if (provideError) {alert(`No List Selected!`);}
 	return NaN;
 }
-
-
 
 function checkInput(input: string, type: string){
 	if (input === ""){
@@ -178,6 +178,62 @@ function save(userLists){						//Save called at addEventHandlers() to ensure oft
 	console.log(`save called!`);
 	const LOCAL_STORAGE_KEY = 'myTodoList.lists';
 	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userLists));
+}
+
+function runAnimatedText(){
+	const words = document.getElementsByClassName('word');
+	let wordArray = [];
+	let currentWord = 0;
+
+	words[currentWord][`style`].opacity = 1;
+	for (let i = 0; i < words.length; i++) {
+  		splitLetters(words[i]);
+	}
+
+	function changeWord() {
+  		let cw = wordArray[currentWord];
+  		let nw = currentWord == words.length-1 ? wordArray[0] : wordArray[currentWord+1];
+  		for (let i = 0; i < cw.length; i++) {
+    		animateLetterOut(cw, i);
+  		}
+  
+  		for (let i = 0; i < nw.length; i++) {
+			nw[i].className = 'letter behind';
+			nw[0].parentElement.style.opacity = 1;
+			animateLetterIn(nw, i);
+  		}
+  
+  		currentWord = (currentWord == wordArray.length-1) ? 0 : currentWord+1;
+	}
+
+	function animateLetterOut(cw, i) {
+		setTimeout(function() {
+			cw[i].className = 'letter out';
+		}, i*80);
+	}
+
+	function animateLetterIn(nw, i) {
+		setTimeout(function() {
+			nw[i].className = 'letter in';
+		}, 340+(i*80));
+	}
+
+	function splitLetters(word) {
+		let content = word.innerHTML;
+		word.innerHTML = '';
+		let letters = [];
+		for (let i = 0; i < content.length; i++) {
+			let letter = document.createElement('span');
+			letter.className = 'letter';
+			letter.innerHTML = content.charAt(i);
+			word.appendChild(letter);
+			letters.push(letter);
+		}
+	
+		wordArray.push(letters);
+	}
+	changeWord();
+	setInterval(changeWord, 6000);
 }
 
 window.onload = function(){

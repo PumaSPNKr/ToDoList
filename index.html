@@ -2,15 +2,24 @@
 <html lang='en'>
 
 <head>
-	<meta charset='utf-8'>
-	<link rel='stylesheet' type='text/css' href="index.css">
+	<meta charset='UTF-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel='stylesheet' type="text/css; charset=utf-8" href="index.css">
 	<script defer src="script1.js"></script>
 	<title>My todo app!</title>
 </head>
 
 <body>
 	<div id='window-container'>
-		<div id='header-container'></div>
+		<div id='header-container'><div class="text">
+			<p>To-do:</p>
+			<p>
+				<span class="word green">life</span>
+			  <span class="word wisteria">work</span>
+			  <span class="word belize">play</span>
+			  <span class="word pomegranate">eat</span>
+			</p>
+		  </div></div>
 		<div id='outside-list-container'>
 			<div id='list-title-container'>
 				<h1 class='center'>My todo lists!</h1>
@@ -23,9 +32,10 @@
 				</ul>
 			</div>
 			<div id='list-form-container' class='center'>
-				<form onsubmit="return false">New list:
+				<form onsubmit="return false"><label>New list:
 					<input id='list-form'>
 					<button id='list-submit-button'>Submit</button>
+				</label>
 				</form>
 			</div>
 		</div>
@@ -38,9 +48,10 @@
 				</ul>
 			</div>
 			<div id='task-form-container' class='center'>
-				<form onsubmit="return false">New task:
-					<input id='task-form' class='no-outline'>
+				<form onsubmit="return false"><label>New task:
+					<input id='task-form'>
 					<button id='task-submit-button'>Submit</button>
+				</label>
 				</form>
 			</div>
 			<div id='delete-buttons-container' class='center'>

@@ -12,6 +12,8 @@ var UserList = /** @class */ (function () {
 function init(userLists) {
     updateLists(userLists); //immediately display userLists
     updateTasks(userLists);
+    //Rest of init is for animated header
+    runAnimatedText();
 }
 function createNewList(userLists) {
     var newListName = document.getElementById("list-form").value;
@@ -73,7 +75,7 @@ function updateTasks(userLists) {
     }
     var currentList = userLists[getSelectedList(userLists, false)];
     if (currentList) { //If a list is selected
-        for (var i = 0; i < currentList["tasks"].length; i++) { //update with current tasks in userlist
+        for (var i = 0; i < currentList["tasks"].length; i++) { //update page with current tasks list
             var li = document.createElement("li");
             li.innerHTML = currentList["tasks"][i];
             currentDisplayedTasks.appendChild(li);
@@ -94,7 +96,7 @@ function addEventHandlers(userLists, htmlElements, type) {
                 }
                 htmlElements.children[i].classList.add("bold", "selected-type");
                 userLists[i]["selected"] = true;
-                save(userLists); //Save list is selected for next page reload
+                save(userLists); //Save list selected for next page reload
                 updateTasks(userLists);
             });
         };
@@ -105,11 +107,11 @@ function addEventHandlers(userLists, htmlElements, type) {
     else if (type === "task") {
         var currentList_1 = userLists[getSelectedList(userLists, false)];
         var _loop_2 = function (i) {
-            if (currentList_1["doneTasks"][i]) { //mark already `done` tasks
+            if (currentList_1["doneTasks"][i]) { //mark already `done` tasks on page
                 htmlElements.children[i].classList.add("bold", "selected-task");
             }
             htmlElements.children[i].addEventListener("click", function (event) {
-                if (currentList_1["doneTasks"][i]) { //if selected task is already `done`
+                if (currentList_1["doneTasks"][i]) { //if clicked task is already `done`
                     htmlElements.children[i].classList.remove("bold", "selected-task");
                     currentList_1["doneTasks"].splice(i, 1, false); //remove selectors
                 }
@@ -162,6 +164,53 @@ function save(userLists) {
     console.log("save called!");
     var LOCAL_STORAGE_KEY = 'myTodoList.lists';
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(userLists));
+}
+function runAnimatedText() {
+    var words = document.getElementsByClassName('word');
+    var wordArray = [];
+    var currentWord = 0;
+    words[currentWord]["style"].opacity = 1;
+    for (var i = 0; i < words.length; i++) {
+        splitLetters(words[i]);
+    }
+    function changeWord() {
+        var cw = wordArray[currentWord];
+        var nw = currentWord == words.length - 1 ? wordArray[0] : wordArray[currentWord + 1];
+        for (var i = 0; i < cw.length; i++) {
+            animateLetterOut(cw, i);
+        }
+        for (var i = 0; i < nw.length; i++) {
+            nw[i].className = 'letter behind';
+            nw[0].parentElement.style.opacity = 1;
+            animateLetterIn(nw, i);
+        }
+        currentWord = (currentWord == wordArray.length - 1) ? 0 : currentWord + 1;
+    }
+    function animateLetterOut(cw, i) {
+        setTimeout(function () {
+            cw[i].className = 'letter out';
+        }, i * 80);
+    }
+    function animateLetterIn(nw, i) {
+        setTimeout(function () {
+            nw[i].className = 'letter in';
+        }, 340 + (i * 80));
+    }
+    function splitLetters(word) {
+        var content = word.innerHTML;
+        word.innerHTML = '';
+        var letters = [];
+        for (var i = 0; i < content.length; i++) {
+            var letter = document.createElement('span');
+            letter.className = 'letter';
+            letter.innerHTML = content.charAt(i);
+            word.appendChild(letter);
+            letters.push(letter);
+        }
+        wordArray.push(letters);
+    }
+    changeWord();
+    setInterval(changeWord, 6000);
 }
 window.onload = function () {
     var LOCAL_STORAGE_KEY = "myTodoList.lists";
